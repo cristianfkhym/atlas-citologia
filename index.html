@@ -1191,9 +1191,9 @@ h1 em { font-style: italic; color: var(--accent); }
 
   let cells = [];
   function initCells() {
-    const count = Math.min(Math.floor(W * H / 38000), 18);
+    const count = Math.min(Math.floor(W * H / 22000), 30);
     cells = Array.from({ length: count }, () => new Cell());
-    const detailCount = 10 + Math.floor(Math.random() * 3);
+    const detailCount = 18 + Math.floor(Math.random() * 5);
     for (let i = 0; i < detailCount; i++) cells.push(new DetailedCell(i));
   }
   initCells();
