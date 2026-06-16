@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atlas · Citologia & Histologia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,7 +64,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dna-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+#dna-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; will-change: transform; }
 
 /* ── SIDE PROGRESS BAR ── */
 #progress-wrap {
@@ -401,7 +403,12 @@ h1 em { font-style: italic; color: var(--accent); }
 .lightbox { display:none; position:fixed; inset:0; z-index:500; background:rgba(244,241,235,0.72); backdrop-filter:blur(14px); align-items:center; justify-content:center; padding:32px; }
 .lightbox.open { display:flex; }
 .lb-inner { max-width:780px; width:100%; background:rgba(244,241,235,0.95); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden; box-shadow:0 40px 80px rgba(58,107,74,0.16); animation:fadeUp 0.3s ease; }
-.lb-img { width:100%; max-height:480px; object-fit:contain; background:rgba(58,107,74,0.04); }
+.lb-img-wrap { overflow:hidden; cursor:zoom-in; background:rgba(58,107,74,0.04); display:flex; align-items:center; justify-content:center; max-height:520px; }
+.lb-img { width:100%; max-height:520px; object-fit:contain; transform-origin:center center; transition:transform 0.2s ease; user-select:none; }
+.lb-zoom-bar { display:flex; align-items:center; gap:10px; padding:8px 24px; border-bottom:1px solid var(--glass-border); background:rgba(244,241,235,0.6); }
+.lb-zoom-btn { background:rgba(58,107,74,0.08); border:1px solid var(--glass-border); color:var(--text); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:1.1rem; display:flex; align-items:center; justify-content:center; }
+.lb-zoom-btn:hover { background:rgba(58,107,74,0.18); }
+.lb-zoom-lbl { font-size:0.78rem; color:var(--muted); letter-spacing:0.05em; flex:1; text-align:center; }
 .lb-foot { padding:20px 24px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--glass-border); }
 .lb-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; color:var(--text); }
 .lb-close { background:rgba(58,107,74,0.08); border:1px solid var(--glass-border); color:var(--text); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
@@ -449,6 +456,39 @@ h1 em { font-style: italic; color: var(--accent); }
   .sumario-desc { font-size: 0.9rem; }
   .sumario-titulo { font-size: 1.05rem; }
 }
+
+/* ── COMPARADOR ── */
+.comp-btn { background:rgba(58,107,74,0.08); border:1px solid rgba(58,107,74,0.2); color:var(--accent);
+  font-size:0.72rem; padding:5px 12px; border-radius:20px; cursor:pointer; letter-spacing:0.05em;
+  font-weight:600; transition:all 0.2s; margin-top:6px; }
+.comp-btn:hover, .comp-btn.selected { background:rgba(58,107,74,0.2); border-color:var(--accent); }
+.comp-btn.selected { box-shadow:0 0 0 2px var(--accent); }
+#comparador-panel {
+  display:none; position:fixed; inset:0; z-index:600;
+  background:rgba(20,30,20,0.85); backdrop-filter:blur(16px);
+  flex-direction:column; align-items:center; justify-content:center; padding:20px; gap:16px;
+}
+#comparador-panel.open { display:flex; }
+.comp-header { color:#fff; font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600;
+  letter-spacing:0.05em; text-align:center; }
+.comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:900px; }
+.comp-slot { background:rgba(244,241,235,0.06); border:1px solid rgba(255,255,255,0.12);
+  border-radius:16px; overflow:hidden; display:flex; flex-direction:column; }
+.comp-slot img { width:100%; flex:1; object-fit:contain; max-height:55vh; background:rgba(0,0,0,0.3); }
+.comp-slot-label { padding:10px 14px; color:rgba(255,255,255,0.75); font-size:0.8rem;
+  letter-spacing:0.04em; text-align:center; border-top:1px solid rgba(255,255,255,0.08); }
+.comp-close { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+  color:#fff; padding:9px 28px; border-radius:20px; cursor:pointer; font-size:0.85rem;
+  letter-spacing:0.06em; font-weight:600; }
+.comp-close:hover { background:rgba(255,255,255,0.2); }
+.comp-hint { position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:rgba(58,107,74,0.92); color:#fff; padding:10px 20px; border-radius:20px;
+  font-size:0.82rem; letter-spacing:0.04em; z-index:400; display:none;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2); pointer-events:none; }
+@media(max-width:600px) {
+  .comp-grid { grid-template-columns:1fr; }
+  .comp-slot img { max-height:35vh; }
+}
 </style>
 </head>
 <body>
@@ -468,6 +508,7 @@ h1 em { font-style: italic; color: var(--accent); }
     <button class="nav-btn active" onclick="showSection('home',this)">Início</button>
     <button class="nav-btn" onclick="showSection('microscopio',this)">Microscópio</button>
     <button class="nav-btn" onclick="showSection('laminas',this)">Lâminas</button>
+    <button class="nav-btn" onclick="showSection('glossario',this)">Glossário</button>
     <button id="dark-toggle" onclick="toggleDark()" title="Modo noturno">🌙</button>
   </div>
 </nav>
@@ -723,7 +764,15 @@ h1 em { font-style: italic; color: var(--accent); }
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLb(event)">
   <div class="lb-inner">
-    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-zoom-bar">
+      <button class="lb-zoom-btn" onclick="event.stopPropagation();lbZoom(-0.25)">−</button>
+      <span class="lb-zoom-lbl" id="lbZoomLbl">100%</span>
+      <button class="lb-zoom-btn" onclick="event.stopPropagation();lbZoom(0.25)">+</button>
+      <button class="lb-zoom-btn" onclick="event.stopPropagation();lbZoomReset()" title="Resetar">↺</button>
+    </div>
+    <div class="lb-img-wrap" id="lbImgWrap">
+      <img class="lb-img" id="lbImg" src="" alt="" ondblclick="lbZoom(0.5)">
+    </div>
     <div class="lb-foot">
       <div class="lb-title" id="lbTitle"></div>
       <button class="lb-close" onclick="closeLb()">✕</button>
@@ -802,7 +851,7 @@ h1 em { font-style: italic; color: var(--accent); }
     }
 
     // Constrói path de uma forma orgânica ondulada
-    buildBlobPath(cx, cy, baseR, modes, segments = 64) {
+    buildBlobPath(cx, cy, baseR, modes, segments = 40) {
       ctx.beginPath();
       for (let i = 0; i <= segments; i++) {
         const angle = (i / segments) * Math.PI * 2;
@@ -1142,9 +1191,9 @@ h1 em { font-style: italic; color: var(--accent); }
 
   let cells = [];
   function initCells() {
-    const count = Math.min(Math.floor(W * H / 22000), 32);
+    const count = Math.min(Math.floor(W * H / 38000), 18);
     cells = Array.from({ length: count }, () => new Cell());
-    const detailCount = 18 + Math.floor(Math.random() * 5);
+    const detailCount = 10 + Math.floor(Math.random() * 3);
     for (let i = 0; i < detailCount; i++) cells.push(new DetailedCell(i));
   }
   initCells();
@@ -1198,12 +1247,18 @@ if (localStorage.getItem('darkMode') === 'true') {
   document.getElementById('dark-toggle').textContent = '☀️';
 }
 
+let _scrollTick = false;
 window.addEventListener('scroll', () => {
-  const el  = document.documentElement;
-  const tot = el.scrollHeight - el.clientHeight;
-  const pct = tot > 0 ? Math.round(el.scrollTop / tot * 100) : 0;
-  document.getElementById('progress-fill').style.height = pct + '%';
-  document.getElementById('progress-pct').textContent   = pct + '%';
+  if (_scrollTick) return;
+  _scrollTick = true;
+  requestAnimationFrame(() => {
+    const el  = document.documentElement;
+    const tot = el.scrollHeight - el.clientHeight;
+    const pct = tot > 0 ? Math.round(el.scrollTop / tot * 100) : 0;
+    document.getElementById('progress-fill').style.height = pct + '%';
+    document.getElementById('progress-pct').textContent   = pct + '%';
+    _scrollTick = false;
+  });
 });
 
 const parts = [
@@ -1223,6 +1278,7 @@ const parts = [
 const praticas = [
   {
     numero: "Prática 01",
+    ficha: [{"label": "Objetivo", "valor": "Aprender a manusear o microscópio"}, {"label": "Lâmina", "valor": "Letra impressa em papel"}, {"label": "Coloração", "valor": "Sem coloração (água destilada)"}, {"label": "Aumentos", "valor": "4x · 10x · 40x"}],
     titulo: "Observação de Letras",
     texto: "<strong>Objetivo:</strong> Observar letras utilizando o microscópio, com a finalidade de aprender a manusear corretamente o equipamento e compreender o funcionamento dos diferentes aumentos.<br><br><strong>Materiais utilizados:</strong> Lâmina, lamínula, água destilada, letra impressa (amostra), microscópio óptico e conta-gotas.<br><br><strong>Método:</strong> Inicialmente, foi selecionada uma letra impressa para servir como amostra. Em seguida, a letra foi colocada sobre a lâmina e adicionou-se uma gota de água destilada para hidratação. Depois, posicionou-se cuidadosamente a lamínula sobre a amostra, evitando a formação de bolhas. A lâmina foi então colocada no microscópio para observação nos aumentos de 4x, 10x e 40x.<br><br><strong>Resultado:</strong> No aumento de 4x, foi possível observar a letra de forma geral. Em 10x, notaram-se mais detalhes da imagem. Já em 40x, a visualização apresentou maior ampliação, permitindo observar detalhes mais específicos, porém com menor campo de visão. A prática possibilitou compreender melhor o uso do microscópio e suas ampliações.",
     fotosFixas: ["fotos/sala_pratica01_1.jpg"],
@@ -1235,6 +1291,7 @@ const praticas = [
   },
   {
     numero: "Prática 02",
+    ficha: [{"label": "Tecido", "valor": "Epitélio pavimentoso simples"}, {"label": "Lâmina", "valor": "Mucosa bucal (raspado)"}, {"label": "Coloração", "valor": "Azul de metileno"}, {"label": "Estruturas", "valor": "Núcleo, citoplasma, membrana"}],
     titulo: "Mucosa Bucal",
     texto: "<strong>Objetivo:</strong> Observar células da mucosa bucal ao microscópio, permitindo a identificação de estruturas celulares e compreender a importância da coloração para melhorar a visualização.<br><br><strong>Materiais utilizados:</strong> Lâmina, lamínula, palito de picolé, azul de metileno, microscópio óptico.<br><br><strong>Método:</strong> Inicialmente, foi realizada a coleta de células da mucosa bucal com o auxílio de um palito de picolé. O material coletado foi espalhado sobre a lâmina. Em seguida, foi adicionado o corante azul de metileno sobre a amostra para evidenciar melhor as estruturas celulares. Depois, colocou-se a lamínula cuidadosamente sobre a lâmina, evitando a formação de bolhas. A observação foi feita no microscópio nos aumentos de 4x, 10x e 40x.<br><br><strong>Resultado:</strong> Nos aumentos de 4x e 10x, foi possível observar as células de forma geral. Em 40x, os contornos celulares ficaram mais nítidos. Com o uso do azul de metileno, houve maior contraste na imagem, destacando principalmente o núcleo das células, o que facilitou a identificação das estruturas celulares.",
     fotosFixas: ["fotos/sala_pratica02_1.jpg"],
@@ -1250,6 +1307,7 @@ const praticas = [
   },
   {
     numero: "Prática 03",
+    ficha: [{"label": "Fenômeno", "valor": "Osmose em hemácias"}, {"label": "Soluções", "valor": "Hipotônica · Isotônica · Hipertônica"}, {"label": "Resultado H.", "valor": "Hemólise (inchaço e ruptura)"}, {"label": "Resultado H.", "valor": "Crenação (enrugamento)"}],
     titulo: "Osmose em Tecido Sanguíneo",
     texto: "A osmose é o movimento da água através da membrana plasmática do meio menos concentrado em solutos para o mais concentrado, até atingir equilíbrio. Em meio hipotônico, a água entra na hemácia, fazendo-a inchar e podendo causar sua ruptura (hemólise). Em meio hipertônico, a água sai da célula, levando à crenação, deixando-a enrugada. Já no meio isotônico, não há movimento líquido de água, e a célula mantém sua forma normal.<br><br><strong>Materiais utilizados:</strong> Lâmina, lamínula, solução salina (0,06%, 0,9% e 1,5%), palito para misturar a solução, lanceta, algodão, microscópio, luvas e canetas para identificação das lâminas.<br><br><strong>Método:</strong> Após lavar as mãos e calçar as luvas, um aluno coleta sangue de outro com uma lanceta. A amostra é colocada em três lâminas com diferentes concentrações de solução. Outro aluno espalha a solução com um palito e coloca a lamínula. As lâminas são observadas ao microscópio em diferentes aumentos.<br><br><strong>Resultado:</strong> No meio hipertônico, as hemácias ficaram difíceis de identificar devido à crenação. No meio hipotônico, ficaram mais visíveis por causa da hemólise. O meio isotônico foi o mais adequado, pois manteve o equilíbrio celular.",
     subs: [
@@ -1282,6 +1340,7 @@ const praticas = [
   },
   {
     numero: "Prática 04",
+    ficha: [{"label": "Sistema", "valor": "ABO e fator Rh"}, {"label": "Reagentes", "valor": "Soro anti-A, anti-B, anti-D"}, {"label": "Resultado +", "valor": "Aglutinação visível"}, {"label": "Resultado −", "valor": "Ausência de aglutinação"}],
     titulo: "Testagem Sanguínea",
     texto: "<strong>Objetivo:</strong> Sistema ABO e Fator RH.<br><br><strong>Observação:</strong> O sistema ABO e o fator Rh são classificações usadas para identificar os grupos sanguíneos humanos, baseadas na presença ou ausência de antígenos na superfície das hemácias. Essa prática foi realizada sem a utilização do microscópio.<br><br><strong>Materiais utilizados:</strong> Lâmina, lanceta, algodão, soro anti-A, soro anti-B, soro anti-D (Rh), palitos de madeira, luvas e caneta para identificação da lâmina.<br><br><strong>Método:</strong> Após lavar as mãos e calçar as luvas, o aluno realiza a coleta da amostra sanguínea em outro integrante do grupo com o auxílio da lanceta. A amostra é transferida para as três lâminas já identificadas. É acrescentado à lâmina uma gota do soro correspondente à identificação. Com a ajuda de um palito, mistura-se o soro ao sangue e aguarda a reação das hemácias.",
     fotosFixas: ["fotos/sala_pratica04_1.jpg","fotos/sala_pratica04_2.jpg","fotos/sala_pratica04_3.jpg","fotos/sala_pratica04_4.jpg","fotos/sala_pratica04_5.jpg"],
@@ -1294,6 +1353,7 @@ const praticas = [
   },
   {
     numero: "Prática 05",
+    ficha: [{"label": "Estruturas", "valor": "Cílios, microvilosidades, estereocílios"}, {"label": "Lâminas", "valor": "Lâm. 62 · 73 · 77 · 83"}, {"label": "Tecidos", "valor": "Traqueia, intestino, bexiga, epidídimo"}, {"label": "Função", "valor": "Especialização da membrana celular"}],
     titulo: "Especializações da Membrana Plasmática",
     texto: "<strong>Objetivo:</strong> Especializações da Membrana Plasmática.<br><br><strong>Observação:</strong> A membrana plasmática pode conter algumas especializações de acordo com as características do local onde se encontra e das funções que precisam realizar. Ex: microvilosidades, cílios e flagelos.<br><br><strong>Materiais utilizados:</strong> Lâmina com tecidos identificados e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno escolhido para a prática posiciona a lâmina para observar, nos três níveis de aumento, as especializações da membrana.<br><br><strong>Resultado:</strong> Observou-se na lâmina 73 que a membrana das células que compõem o tecido de revestimento da traqueia possui cílios. Na lâmina 77 da bexiga, observamos as microvilosidades como característica deste tecido de revestimento. Na lâmina 62, correspondente ao corte do intestino delgado, foram observadas microvilosidades, importantes para a absorção de nutrientes. Já na lâmina 83, correspondente ao epidídimo, foram observadas estruturas relacionadas às especializações da membrana, associadas à função desse tecido.",
     subs: [
@@ -1325,6 +1385,7 @@ const praticas = [
   },
   {
     numero: "Prática 06",
+    ficha: [{"label": "Classificação", "valor": "Por forma e número de camadas"}, {"label": "Tipos", "valor": "Pavimentoso · Cúbico · Cilíndrico"}, {"label": "Lâminas", "valor": "Artéria, pele, esôfago, traqueia, bexiga"}, {"label": "Função", "valor": "Revestimento e proteção"}],
     titulo: "Tecido Epitelial de Revestimento",
     texto: "<strong>Objetivo:</strong> Tecido Epitelial de Revestimento.<br><br><strong>Observação:</strong> Podemos classificar os tecidos de revestimento quanto à forma (pavimentoso, cúbico ou cilíndrico) e ao número de camadas (simples, pavimentoso ou pseudopavimentoso). Ele reveste superfícies, cavidades corporais e forma glândulas, desempenhando funções essenciais como proteção, absorção, secreção e percepção sensorial.<br><br><strong>Materiais utilizados:</strong> Lâmina com tecidos identificados e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno escolhido para a prática posiciona a lâmina para observar os tecidos nos três níveis de aumento da lente.<br><br><strong>Resultado:</strong> Foram observadas as seguintes lâminas: 41 — Artéria, 53 — Pele, 57 — Esôfago, 73 — Traqueia, 77 — Bexiga.",
     subs: [
@@ -1373,6 +1434,7 @@ const praticas = [
   },
   {
     numero: "Prática 07",
+    ficha: [{"label": "Tipos", "valor": "Exócrina e Endócrina"}, {"label": "Exócrinas", "valor": "Parótida (serosa) · Submandibular (mista)"}, {"label": "Endócrinas", "valor": "Adrenal · Tireoide"}, {"label": "Função", "valor": "Produção e secreção de substâncias"}],
     titulo: "Tecido Epitelial Glandular",
     texto: "<strong>Objetivo:</strong> Tecido Epitelial Glandular.<br><br><strong>Observação:</strong> Por ser um tecido glandular é especializado na produção e liberação (secreção) de substâncias. As glândulas se dividem em dois tipos: endócrinas e exócrinas.<br><br><strong>Materiais utilizados:</strong> Lâmina com tecidos identificados e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno escolhido para a prática posiciona a lâmina para observar os tecidos nos três níveis de aumento da lente.<br><br><strong>Resultado:</strong> Lâmina 65 – Parótida: Glândula exócrina com ácinos serosos e ductos tubulares simples. Lâmina 66 – Submandibular: Glândula exócrina com ductos tubulares simples e ácinos serosos. Lâmina 79 – Adrenal: Glândula endócrina cordonal. Lâmina 80 – Tireoide: Glândula endócrina folicular.",
     subs: [
@@ -1416,6 +1478,7 @@ const praticas = [
   },
   {
     numero: "Prática 08",
+    ficha: [{"label": "Tecido", "valor": "Conjuntivo Propriamente Dito"}, {"label": "Lâminas", "valor": "Pele espinosa · Tendão"}, {"label": "Tipos", "valor": "Denso modelado · Denso não modelado"}, {"label": "Células", "valor": "Fibroblastos, fibras colágenas"}],
     titulo: "Tecido Conjuntivo Propriamente Dito",
     texto: "<strong>Objetivo:</strong> Tecido Conjuntivo Propriamente Dito.<br><br><strong>Observação:</strong> O tecido conjuntivo propriamente dito é responsável por preencher espaços entre órgãos, dar suporte estrutural e nutrir outros tecidos. É formado por células (fibroblastos, macrófagos, mastócitos) e fibras (colágenas, elásticas e reticulares) imersas em matriz extracelular.<br><br><strong>Materiais utilizados:</strong> Lâminas com tecidos identificados e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno posiciona cada lâmina para observar os tecidos nos três níveis de aumento da lente objetiva.",
     subs: [
@@ -1442,6 +1505,7 @@ const praticas = [
   },
   {
     numero: "Prática 09",
+    ficha: [{"label": "Tecido", "valor": "Cartilaginoso"}, {"label": "Tipos", "valor": "Hialina · Elástica · Fibrosa"}, {"label": "Lâminas", "valor": "Lâm. 23 · 24 · 73"}, {"label": "Células", "valor": "Condrócitos em lacunas"}],
     titulo: "Tecido Cartilaginoso",
     texto: "<strong>Objetivo:</strong> Tecido Cartilaginoso.<br><br><strong>Observação:</strong> O tecido cartilaginoso é um tipo de tecido conjuntivo especializado, avascular, formado por condrócitos alojados em lacunas dentro de uma matriz extracelular rica em proteoglicanas e fibras. Existem três tipos principais: cartilagem hialina, elástica e fibrosa, cada uma com características estruturais e funcionais distintas.<br><br><strong>Materiais utilizados:</strong> Lâminas com tecidos identificados e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno posiciona cada lâmina para observar os tecidos nos três níveis de aumento da lente objetiva.",
     subs: [
@@ -1477,6 +1541,7 @@ const praticas = [
   },
   {
     numero: "Prática 10",
+    ficha: [{"label": "Tecido", "valor": "Ósseo"}, {"label": "Tipos", "valor": "Compacto · Esponjoso"}, {"label": "Estrutura", "valor": "Ósteon, canalículos, osteócitos"}, {"label": "Ossificação", "valor": "Endocondral (a partir de cartilagem)"}],
     titulo: "Tecido Ósseo",
     texto: "<strong>Objetivo:</strong> Tecido Ósseo.<br><br><strong>Observação:</strong> O tecido ósseo é um tecido conjuntivo especializado, mineralizado, composto por osteoblastos, osteócitos e osteoclastos, imersos em matriz extracelular calcificada rica em colágeno tipo I e hidroxiapatita. Pode ser classificado em osso compacto (cortical) e osso esponjoso (trabecular), além de apresentar diferentes modos de formação (ossificação intramembranosa e endocondral).<br><br><strong>Materiais utilizados:</strong> Lâminas com tecidos identificados e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno posiciona cada lâmina para observar os tecidos nos três níveis de aumento da lente objetiva.",
     subs: [
@@ -1512,6 +1577,7 @@ const praticas = [
   },
   {
     numero: "Prática 11",
+    ficha: [{"label": "Tecido", "valor": "Sanguíneo — Leucócitos"}, {"label": "Agranulócitos", "valor": "Linfócitos · Monócitos"}, {"label": "Granulócitos", "valor": "Neutrófilos · Eosinófilos · Basófilos"}, {"label": "Lâmina", "valor": "Lâm. 50 — Esfregaço sanguíneo"}],
     titulo: "Tecido Sanguíneo",
     texto: "<strong>Objetivo:</strong> Tecido Sanguíneo.<br><br><strong>Observação:</strong> Os leucócitos (glóbulos brancos) são as células de defesa do sangue e se dividem em dois grandes grupos: <strong>granulócitos</strong> (neutrófilos, eosinófilos e basófilos), que possuem grânulos específicos no citoplasma e núcleo lobulado, e <strong>agranulócitos</strong> (linfócitos e monócitos), que não apresentam grânulos específicos e têm núcleo regular. Cada tipo possui morfologia e função distintas, identificáveis no esfregaço sanguíneo corado.<br><br><strong>Materiais utilizados:</strong> Lâmina 50 com esfregaço sanguíneo corado e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno posiciona a lâmina e identifica, em 40x, os diferentes tipos de leucócitos com base em suas características morfológicas.",
     subs: [
@@ -1619,10 +1685,11 @@ function renderLaminas() {
               <div class="lam-title">${l.title}</div>
               <p class="lam-desc">${l.desc}</p>
               <div class="tags">${l.tags.map(t=>`<span class="tag ${tagCls(t,l.zoom)}">${t}</span>`).join('')}</div>
-              <label class="lam-upload-btn">
+              ${!l.imgFixa ? `<label class="lam-upload-btn">
                 <input id="lu${i}" type="file" accept="image/*" onchange="handleLam(event,${i})">
                 📸 ${imgs['l'+i] ? 'Trocar foto' : 'Anexar foto da aula'}
-              </label>
+              </label>` : ''}
+              ${(l.imgFixa || imgs['l'+i]) ? `<button class="comp-btn" id="compbtn-${i}" onclick="selecionarComparador('${l.imgFixa || imgs['l'+i]}','${l.title} · ${l.zoom}',${i})">⬛ Comparar</button>` : ''}
             </div>
           </div>`;
       }).join('');
@@ -1656,6 +1723,12 @@ function renderLaminas() {
           <div class="pratica-eyebrow">${p.numero}</div>
           <div class="pratica-titulo">${p.titulo}</div>
           <p class="pratica-texto">${p.texto}</p>
+          ${p.ficha ? `<div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+            ${p.ficha.map(f => `<div style="background:rgba(58,107,74,0.06);border:1px solid var(--glass-border);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:4px;">${f.label}</div>
+              <div style="font-size:0.85rem;color:var(--text);line-height:1.5;">${f.valor}</div>
+            </div>`).join('')}
+          </div>` : ''}
           <div class="pratica-galeria-wrap">
             <div class="pratica-galeria-label">Fotos em Sala</div>
             <div class="pratica-galeria" id="galeria-${pi}">
@@ -1731,76 +1804,239 @@ function handleCor(e,i) {
   r.readAsDataURL(f);
 }
 
+let lbScale = 1;
+function lbZoom(delta) {
+  lbScale = Math.min(4, Math.max(0.5, lbScale + delta));
+  document.getElementById('lbImg').style.transform = 'scale(' + lbScale + ')';
+  document.getElementById('lbZoomLbl').textContent = Math.round(lbScale * 100) + '%';
+}
+function lbZoomReset() {
+  lbScale = 1;
+  document.getElementById('lbImg').style.transform = 'scale(1)';
+  document.getElementById('lbZoomLbl').textContent = '100%';
+}
 function openLb(src, title) {
   document.getElementById('lbImg').src = src;
   document.getElementById('lbTitle').textContent = title;
   document.getElementById('lightbox').classList.add('open');
+  lbZoomReset();
 }
-
 function closeLb(e) {
-  if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lb-close'))
+  if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lb-close')) {
     document.getElementById('lightbox').classList.remove('open');
+    lbZoomReset();
+  }
 }
 
-renderParts(); renderLaminas();
+
+// ── GLOSSÁRIO ──
+const glossarioTermos = [
+  {termo:"Ácino",def:"Unidade secretora das glândulas exócrinas, formada por células agrupadas em torno de um lúmen central. Pode ser seroso, mucoso ou misto.",pratica:"P7"},
+  {termo:"Agranulócito",def:"Leucócito sem grânulos específicos visíveis no citoplasma. Inclui linfócitos e monócitos.",pratica:"P11"},
+  {termo:"Basófilo",def:"Granulócito com grânulos que se coram em azul-escuro por corantes básicos. Envolvido em reações alérgicas e inflamatórias.",pratica:"P11"},
+  {termo:"Canalículo",def:"Pequeno canal que conecta as lacunas ósseas, permitindo troca de nutrientes e gases entre osteócitos.",pratica:"P10"},
+  {termo:"Cartilagem Elástica",def:"Tipo de cartilagem rica em fibras elásticas, encontrada no pavilhão auricular e epiglote. Mais flexível que a hialina.",pratica:"P9"},
+  {termo:"Cartilagem Fibrosa",def:"Tipo de cartilagem com grande quantidade de fibras colágenas. Encontrada nos discos intervertebrais e meniscos.",pratica:"P9"},
+  {termo:"Cartilagem Hialina",def:"Tipo de cartilagem mais comum, com matriz homogênea e azulada. Cobre superfícies articulares e forma cartilagens costais.",pratica:"P9"},
+  {termo:"Cílios",def:"Prolongamentos citoplasmáticos longos e móveis presentes na superfície de algumas células epiteliais, como as da traqueia. Função: deslocar muco e partículas.",pratica:"P5"},
+  {termo:"Condrócito",def:"Célula do tecido cartilaginoso, localizada em espaços chamados lacunas dentro da matriz cartilaginosa.",pratica:"P9"},
+  {termo:"Condensação da Cromatina",def:"Compactação do material genético durante a divisão celular ou em células inativas.",pratica:"P2"},
+  {termo:"Conjuntivo Denso Modelado",def:"Tecido conjuntivo com fibras colágenas paralelas e orientadas, adaptado para resistir a forças em uma direção. Ex: tendões.",pratica:"P8"},
+  {termo:"Conjuntivo Denso Não Modelado",def:"Tecido conjuntivo com fibras colágenas entrelaçadas sem orientação definida. Ex: derme profunda da pele.",pratica:"P8"},
+  {termo:"Crenação",def:"Enrugamento das hemácias quando expostas a solução hipertônica, devido à perda de água por osmose.",pratica:"P3"},
+  {termo:"Diafragma de Íris",def:"Dispositivo do condensador do microscópio que regula a quantidade de luz que passa pela lâmina.",pratica:"Microscópio"},
+  {termo:"Eosinófilo",def:"Granulócito cujos grânulos se coram em vermelho-alaranjado pela eosina. Atua em reações alérgicas e contra parasitas.",pratica:"P11"},
+  {termo:"Epitélio Cilíndrico",def:"Epitélio cujas células têm altura maior que a largura. Reveste o trato digestivo e partes do sistema reprodutor.",pratica:"P6"},
+  {termo:"Epitélio Cúbico",def:"Epitélio formado por células com altura e largura semelhantes. Encontrado em túbulos renais e glândulas.",pratica:"P6"},
+  {termo:"Epitélio Pavimentoso",def:"Epitélio formado por células achatadas. Pode ser simples (vasos sanguíneos) ou estratificado (pele, esôfago).",pratica:"P6"},
+  {termo:"Estereocílios",def:"Prolongamentos citoplasmáticos longos e imóveis presentes no epidídimo. Aumentam a superfície de absorção.",pratica:"P5"},
+  {termo:"Esfregaço Sanguíneo",def:"Preparação laboratorial onde o sangue é espalhado em camada fina sobre uma lâmina para visualização das células.",pratica:"P11"},
+  {termo:"Fator Rh",def:"Antígeno presente na superfície das hemácias. Rh+ indica presença; Rh− indica ausência do antígeno D.",pratica:"P4"},
+  {termo:"Fibroblasto",def:"Principal célula do tecido conjuntivo, responsável pela produção de fibras colágenas, elásticas e da substância fundamental.",pratica:"P8"},
+  {termo:"Glândula Endócrina",def:"Glândula que secreta hormônios diretamente na corrente sanguínea, sem ducto excretor. Ex: tireoide, adrenal.",pratica:"P7"},
+  {termo:"Glândula Exócrina",def:"Glândula que secreta substâncias por meio de ductos para superfícies ou cavidades. Ex: parótida, submandibular.",pratica:"P7"},
+  {termo:"Granulócito",def:"Leucócito com grânulos específicos visíveis no citoplasma. Inclui neutrófilos, eosinófilos e basófilos.",pratica:"P11"},
+  {termo:"Hemácia",def:"Eritrócito — célula sanguínea anucleada responsável pelo transporte de oxigênio. Forma de disco bicôncavo.",pratica:"P3"},
+  {termo:"Hemólise",def:"Ruptura das hemácias em solução hipotônica, com liberação de hemoglobina, devido à entrada excessiva de água.",pratica:"P3"},
+  {termo:"Lacuna",def:"Espaço na matriz óssea ou cartilaginosa onde ficam alojadas as células (osteócitos ou condrócitos).",pratica:"P9, P10"},
+  {termo:"Lamínula",def:"Fina lâmina de vidro colocada sobre a amostra para protegê-la e achatar o material para observação microscópica.",pratica:"Microscópio"},
+  {termo:"Leucócito",def:"Célula branca do sangue. Faz parte do sistema imunológico. Dividido em agranulócitos e granulócitos.",pratica:"P11"},
+  {termo:"Linfócito",def:"Agranulócito com núcleo grande e arredondado. Principal célula da imunidade adaptativa (linfócitos T e B).",pratica:"P11"},
+  {termo:"Lúmen",def:"Cavidade interna de estruturas tubulares como vasos, ductos e glândulas.",pratica:"P7"},
+  {termo:"Macrométrico",def:"Parafuso grosseiro do microscópio usado para aproximação inicial da objetiva à lâmina. Só deve ser usado em 4x.",pratica:"Microscópio"},
+  {termo:"Micrométrico",def:"Parafuso de ajuste fino do microscópio, usado para nitidez precisa. Utilizado em todos os aumentos.",pratica:"Microscópio"},
+  {termo:"Microvilosidades",def:"Dobras da membrana plasmática que aumentam a superfície de absorção celular. Presentes no intestino delgado.",pratica:"P5"},
+  {termo:"Monócito",def:"Maior agranulócito do sangue. Ao migrar para tecidos, diferencia-se em macrófago, com função fagocítica.",pratica:"P11"},
+  {termo:"Mucosa",def:"Membrana que reveste cavidades internas do organismo em contato com o exterior, como o trato digestivo.",pratica:"P2"},
+  {termo:"Neutrofilo",def:"Granulócito mais abundante do sangue. Núcleo multilobado. Principal célula de defesa contra bactérias.",pratica:"P11"},
+  {termo:"Ósteon",def:"Unidade estrutural do osso compacto. Formado por lamelas ósseas concêntricas ao redor de um canal de Havers.",pratica:"P10"},
+  {termo:"Osteócito",def:"Célula óssea madura localizada em lacunas dentro da matriz óssea calcificada.",pratica:"P10"},
+  {termo:"Ossificação Endocondral",def:"Processo de formação óssea a partir de um molde cartilaginoso. Responsável pela formação dos ossos longos.",pratica:"P10"},
+  {termo:"Osmose",def:"Movimento da água através de membrana semipermeável do meio hipotônico para o hipertônico.",pratica:"P3"},
+  {termo:"Platina",def:"Suporte horizontal do microscópio onde a lâmina é colocada para observação.",pratica:"Microscópio"},
+  {termo:"Revólver",def:"Peça giratória do microscópio que sustenta as objetivas, permitindo troca de aumento.",pratica:"Microscópio"},
+  {termo:"Solução Hipotônica",def:"Solução com menor concentração de solutos que o meio intracelular. Causa inchaço e hemólise nas hemácias.",pratica:"P3"},
+  {termo:"Solução Hipertônica",def:"Solução com maior concentração de solutos que o meio intracelular. Causa crenação nas hemácias.",pratica:"P3"},
+  {termo:"Solução Isotônica",def:"Solução com mesma concentração de solutos que o meio intracelular. Hemácias mantêm forma normal.",pratica:"P3"},
+  {termo:"Tecido Conjuntivo",def:"Tecido de preenchimento, sustentação e defesa. Formado por células e grande quantidade de matriz extracelular.",pratica:"P8"},
+  {termo:"Tecido Epitelial",def:"Tecido de revestimento e secreção. Células justapostas com pouca matriz extracelular e alta capacidade de renovação.",pratica:"P6"},
+  {termo:"Tecido Ósseo",def:"Tecido conjuntivo especializado com matriz calcificada. Fornece suporte mecânico, proteção e reserva mineral.",pratica:"P10"},
+  {termo:"Tecido Sanguíneo",def:"Tecido conjuntivo líquido formado por plasma e elementos figurados: hemácias, leucócitos e plaquetas.",pratica:"P11"},
+  {termo:"Trabécula",def:"Lamela óssea que forma a estrutura do osso esponjoso, delimitando espaços ocupados pela medula óssea.",pratica:"P10"},
+  {termo:"Tireoide",def:"Glândula endócrina localizada no pescoço, produtora dos hormônios T3 e T4. Caracterizada por folículos repletos de coloide.",pratica:"P7"},
+];
+
+function filtrarGlossario() {
+  const q = document.getElementById('glossario-busca').value.toLowerCase();
+  renderGlossario(q);
+}
+
+function renderGlossario(filtro = '') {
+  const lista = document.getElementById('glossario-lista');
+  const letrasDiv = document.getElementById('glossario-letras');
+  if (!lista || !letrasDiv) return;
+
+  const termosFiltrados = glossarioTermos.filter(t =>
+    t.termo.toLowerCase().includes(filtro) || t.def.toLowerCase().includes(filtro)
+  ).sort((a,b) => a.termo.localeCompare(b.termo));
+
+  // Letras do alfabeto como filtro rápido
+  if (!filtro) {
+    const letras = [...new Set(termosFiltrados.map(t => t.termo[0].toUpperCase()))];
+    letrasDiv.innerHTML = letras.map(l =>
+      `<button onclick="document.getElementById('gl-${l}') && document.getElementById('gl-${l}').scrollIntoView({behavior:'smooth',block:'start'})"
+        style="background:rgba(58,107,74,0.08);border:1px solid var(--glass-border);border-radius:8px;
+               padding:4px 10px;font-size:0.8rem;font-weight:600;color:var(--accent);cursor:pointer;letter-spacing:0.05em;">${l}</button>`
+    ).join('');
+  } else {
+    letrasDiv.innerHTML = '';
+  }
+
+  let html = '';
+  let letraAtual = '';
+  termosFiltrados.forEach(t => {
+    const inicial = t.termo[0].toUpperCase();
+    if (!filtro && inicial !== letraAtual) {
+      letraAtual = inicial;
+      html += `<div id="gl-${inicial}" style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;
+        color:var(--accent);margin-top:20px;margin-bottom:4px;padding-bottom:6px;
+        border-bottom:2px solid rgba(58,107,74,0.15);">${inicial}</div>`;
+    }
+    html += `<div class="glass" style="padding:16px 20px;display:flex;flex-direction:column;gap:4px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--text);">${t.termo}</div>
+        <span style="font-size:0.72rem;color:var(--accent);opacity:0.7;white-space:nowrap;letter-spacing:0.06em;">${t.pratica}</span>
+      </div>
+      <p style="font-size:0.875rem;color:var(--text);opacity:0.8;line-height:1.7;margin:0;">${t.def}</p>
+    </div>`;
+  });
+
+  if (!termosFiltrados.length) html = '<p style="color:var(--muted);font-size:0.9rem;">Nenhum termo encontrado.</p>';
+  lista.innerHTML = html;
+}
+
+
+// ── COMPARADOR ──
+let compSelA = null, compSelB = null;
+
+function selecionarComparador(src, label, idx) {
+  const btn = document.getElementById('compbtn-' + idx);
+  // Se já está selecionado, deseleciona
+  if ((compSelA && compSelA.idx === idx) || (compSelB && compSelB.idx === idx)) {
+    if (compSelA && compSelA.idx === idx) compSelA = null;
+    else compSelB = null;
+    btn.classList.remove('selected');
+    btn.textContent = '⬛ Comparar';
+    mostrarHint();
+    return;
+  }
+  if (!compSelA) {
+    compSelA = {src, label, idx};
+    btn.classList.add('selected');
+    btn.textContent = '✓ Selecionado';
+    mostrarHint('1ª lâmina selecionada — escolha a 2ª para comparar');
+  } else if (!compSelB) {
+    compSelB = {src, label, idx};
+    btn.classList.add('selected');
+    btn.textContent = '✓ Selecionado';
+    abrirComparador();
+  }
+}
+
+function mostrarHint(msg) {
+  const el = document.getElementById('comp-hint');
+  if (!msg) { el.style.display = 'none'; return; }
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function abrirComparador() {
+  document.getElementById('comp-img-a').src = compSelA.src;
+  document.getElementById('comp-label-a').textContent = compSelA.label;
+  document.getElementById('comp-img-b').src = compSelB.src;
+  document.getElementById('comp-label-b').textContent = compSelB.label;
+  document.getElementById('comparador-panel').classList.add('open');
+  mostrarHint();
+}
+
+function fecharComparador() {
+  document.getElementById('comparador-panel').classList.remove('open');
+  // Resetar seleções
+  if (compSelA) {
+    const btn = document.getElementById('compbtn-' + compSelA.idx);
+    if (btn) { btn.classList.remove('selected'); btn.textContent = '⬛ Comparar'; }
+  }
+  if (compSelB) {
+    const btn = document.getElementById('compbtn-' + compSelB.idx);
+    if (btn) { btn.classList.remove('selected'); btn.textContent = '⬛ Comparar'; }
+  }
+  compSelA = null; compSelB = null;
+}
+
+renderParts(); renderLaminas(); renderGlossario();
 </script>
 
-<!-- QR CODE SECTION -->
-<div id="qr-float" style="position:fixed;bottom:20px;right:20px;z-index:400;">
-  <button id="qr-toggle-btn" onclick="toggleQR()"
-    style="background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);
-    border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.2rem;
-    box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;
-    transition:all 0.2s;" title="QR Code do site">📱</button>
-  <div id="qr-panel" style="display:none;position:absolute;bottom:54px;right:0;
-    background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);
-    border-radius:20px;padding:24px;box-shadow:var(--shadow-lg);width:220px;
-    animation:fadeUp 0.25s ease both;text-align:center;">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;
-      color:var(--text);margin-bottom:4px;">Acesse pelo celular</div>
-    <div style="font-size:0.72rem;color:var(--muted);margin-bottom:14px;letter-spacing:0.04em;">
-      Aponte a câmera para o QR Code
+
+
+
+<div id="glossario" class="section">
+  <div class="page">
+    <div class="sec-header">
+      <div>
+        <div class="sec-title">Glossário</div>
+        <div class="sec-sub">Termos histológicos e citológicos utilizados nas práticas</div>
+      </div>
     </div>
-    <div id="qr-canvas-wrap" style="display:flex;justify-content:center;margin-bottom:14px;"></div>
-    <div id="qr-url-display" style="font-size:0.68rem;color:var(--muted);word-break:break-all;
-      background:rgba(58,107,74,0.06);border:1px solid var(--glass-border);
-      border-radius:10px;padding:8px 10px;line-height:1.5;"></div>
-    <div style="margin-top:10px;font-size:0.65rem;color:var(--muted);opacity:0.6;">
-      Cole a URL do GitHub Pages aqui →<br>
-      <button onclick="promptQRUrl()" style="background:rgba(58,107,74,0.1);border:1px solid var(--glass-border);
-        border-radius:8px;padding:3px 9px;font-size:0.65rem;color:var(--accent);cursor:pointer;margin-top:5px;">
-        ✏️ Alterar URL
-      </button>
+
+    <div style="margin-bottom:24px;">
+      <input id="glossario-busca" type="text" placeholder="Buscar termo..." oninput="filtrarGlossario()"
+        style="width:100%;max-width:480px;padding:12px 18px;border-radius:14px;border:1px solid var(--glass-border);
+               background:rgba(244,241,235,0.7);font-family:'Inter',sans-serif;font-size:0.9rem;
+               color:var(--text);outline:none;box-sizing:border-box;">
     </div>
+
+    <div id="glossario-letras" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;"></div>
+    <div id="glossario-lista" style="display:flex;flex-direction:column;gap:10px;"></div>
   </div>
 </div>
 
-<script>
-// QR Code gerado sem biblioteca externa (puro SVG via API do Google Charts)
-let qrUrl = window.location.href;
 
-function buildQR(url) {
-  const wrap = document.getElementById('qr-canvas-wrap');
-  const encoded = encodeURIComponent(url);
-  wrap.innerHTML = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' + encoded + '&bgcolor=ffffff&color=1a1714&margin=4" style="border-radius:10px;width:160px;height:160px;" alt="QR Code">';
-  document.getElementById('qr-url-display').textContent = url;
-}
-
-function toggleQR() {
-  const panel = document.getElementById('qr-panel');
-  const isOpen = panel.style.display !== 'none';
-  panel.style.display = isOpen ? 'none' : 'block';
-  if (!isOpen) buildQR(qrUrl);
-}
-
-function promptQRUrl() {
-  const newUrl = window.prompt('Cole aqui a URL do seu GitHub Pages:', qrUrl);
-  if (newUrl && newUrl.trim()) {
-    qrUrl = newUrl.trim();
-    buildQR(qrUrl);
-  }
-}
-</script>
+<!-- COMPARADOR PANEL -->
+<div id="comparador-panel">
+  <div class="comp-header">⬛ Comparador de Lâminas</div>
+  <div class="comp-grid">
+    <div class="comp-slot">
+      <img id="comp-img-a" src="" alt="">
+      <div class="comp-slot-label" id="comp-label-a">—</div>
+    </div>
+    <div class="comp-slot">
+      <img id="comp-img-b" src="" alt="">
+      <div class="comp-slot-label" id="comp-label-b">—</div>
+    </div>
+  </div>
+  <button class="comp-close" onclick="fecharComparador()">✕ Fechar comparador</button>
+</div>
+<div class="comp-hint" id="comp-hint"></div>
 
 
 <footer style="
