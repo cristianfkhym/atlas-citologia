@@ -266,7 +266,8 @@ h1 em { font-style: italic; color: var(--accent); }
 
 /* ── LAMINAS ── */
 .laminas-grid { display:flex; flex-direction:column; gap:40px; }
-.pratica-bloco { display:flex; flex-direction:column; gap:20px; }
+.pratica-bloco { display:flex; flex-direction:column; gap:20px; scroll-margin-top:80px; }
+.lamina-card img { transition: opacity 0.3s ease; }
 .pratica-header {
   padding: 28px 32px;
   border-left: 3px solid var(--accent);
@@ -410,8 +411,11 @@ h1 em { font-style: italic; color: var(--accent); }
   .hero { max-width:100%; }
   .micro-layout { grid-template-columns:1fr; }
   .home-grid { grid-template-columns:1fr; }
-  nav { padding:8px 12px; width:calc(100% - 48px); }
-  .nav-logo span { display:none; }
+  nav { padding:6px 8px; width:calc(100% - 24px); gap:3px; }
+  .nav-logo { display:none; }
+  .nav-links { gap:3px; justify-content:center; flex:1; }
+  .nav-btn { font-size:0.72rem; padding:6px 10px; letter-spacing:0.04em; }
+  #dark-toggle { font-size:0.9rem; padding:6px 8px; min-width:32px; flex-shrink:0; }
   #progress-wrap { display:none; }
   .page { padding: 100px 20px 80px; }
 
@@ -511,7 +515,7 @@ h1 em { font-style: italic; color: var(--accent); }
 
       <div class="sumario-label">🧫 Lâminas & Práticas</div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-0');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-0');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P1</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Observação de Letras</div>
@@ -521,7 +525,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-1');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-1');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P2</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Mucosa Bucal</div>
@@ -531,7 +535,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-2');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-2');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P3</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Osmose em Tecido Sanguíneo</div>
@@ -541,7 +545,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-3');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-3');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P4</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tipagem Sanguínea</div>
@@ -551,7 +555,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-4');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-4');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P5</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Especializações da Membrana</div>
@@ -561,7 +565,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-5');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-5');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P6</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tecido Epitelial de Revestimento</div>
@@ -571,7 +575,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-6');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-6');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P7</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tecido Epitelial Glandular</div>
@@ -581,7 +585,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-7');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-7');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P8</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tecido Conjuntivo Propriamente Dito</div>
@@ -591,7 +595,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-8');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-8');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P9</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tecido Cartilaginoso</div>
@@ -601,7 +605,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-9');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-9');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P10</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tecido Ósseo</div>
@@ -611,7 +615,7 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sumario-arrow">›</div>
       </div>
 
-      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]); setTimeout(()=>{const el=document.getElementById('pratica-10');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
+      <div class="sumario-bloco glass" onclick="showSection('laminas',document.querySelectorAll('.nav-btn')[2]);setTimeout(()=>{const el=document.getElementById('pratica-10');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},350)">
         <div class="sumario-numero">P11</div>
         <div class="sumario-content">
           <div class="sumario-titulo">Tecido Sanguíneo</div>
@@ -634,62 +638,75 @@ h1 em { font-style: italic; color: var(--accent); }
         <div class="sec-sub">Identificação das estruturas do microscópio óptico utilizado nas práticas</div>
       </div>
     </div>
-    <!-- PASSO A PASSO -->
-    <div style="margin-bottom:2.5rem;">
-      <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.28em;color:var(--accent);display:flex;align-items:center;gap:8px;margin-bottom:20px;">
-        <span style="width:20px;height:1px;background:var(--accent);opacity:0.5;display:inline-block;"></span>
-        Passo a Passo · Como ligar e usar o microscópio
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;">
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">① Preparação</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Coloque o microscópio sobre uma superfície plana e estável. Verifique se o cabo de alimentação está conectado e ligue o interruptor de luz localizado na base. Aguarde a iluminação estabilizar.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">② Objetiva 4x (início)</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Gire o revólver até encaixar a objetiva de menor aumento (4x). Sempre inicie nela — é mais segura e oferece o maior campo de visão para localizar a amostra.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">③ Posicionamento da lâmina</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Coloque a lâmina sobre a platina com a lamínula voltada para cima. Fixe-a com os grampos metálicos. Centralize a amostra usando os parafusos de deslocamento X-Y.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">④ Foco grosseiro (macrométrico)</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Olhando de lado, aproxime a objetiva da lâmina girando o parafuso macrométrico devagar. Depois, olhando pela ocular, afaste lentamente até aparecer a imagem. Use somente em 4x.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">⑤ Foco fino (micrométrico)</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Após localizar a estrutura em 4x, ajuste a nitidez com o parafuso micrométrico. Este parafuso é essencial ao usar as objetivas 10x e 40x — nunca force o macrométrico nessas objetivas.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">⑥ Troca de objetiva</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Centralize a estrutura de interesse e gire o revólver para 10x. Reajuste o foco apenas com o micrométrico. Para ir a 40x, repita o processo — nunca troque de objetiva sem centralizar antes.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">⑦ Ajuste do condensador</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Regule o condensador (abaixo da platina) para concentrar a luz. Abra ou feche o diafragma de íris para controlar o contraste — mais aberto = mais brilho; mais fechado = mais contraste.</p>
-        </div>
-
-        <div class="glass" style="padding:18px 20px;border-left:3px solid var(--accent);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:6px;">⑧ Finalização</div>
-          <p style="font-size:0.88rem;color:var(--text);line-height:1.75;opacity:0.85;">Ao terminar, volte o revólver para a objetiva 4x. Remova a lâmina da platina. Desligue a iluminação, cubra o microscópio com o protetor e guarde em local apropriado.</p>
-        </div>
-
-      </div>
-    </div>
-
     <div style="display:flex;justify-content:center;align-items:center;padding:2rem 0 3rem;">
-      <img src="microscopio.jpg" alt="Partes do Microscópio"
+      <img src="fotos/microscopio.jpg" alt="Partes do Microscópio"
            style="max-width:100%;width:720px;border-radius:1rem;
                   box-shadow:0 8px 32px rgba(0,0,0,.18);background:#fff;padding:1.5rem;">
     </div>
+
+    <!-- PASSO A PASSO -->
+    <div style="margin-bottom:3rem;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        <div style="width:3px;height:32px;background:var(--accent);border-radius:2px;"></div>
+        <div>
+          <div class="sec-title" style="font-size:1.6rem;">Como Usar o Microscópio</div>
+          <div class="sec-sub">Passo a passo para ligar, focar e utilizar corretamente</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:24px;">
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">🔌</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">① Preparação</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Coloque o microscópio sobre uma superfície plana e estável. Conecte o cabo de alimentação e ligue o interruptor de luz na base. Aguarde a iluminação estabilizar antes de continuar.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">🔭</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">② Objetiva 4x — sempre primeiro</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Gire o revólver até encaixar a objetiva de menor aumento (4x). Sempre inicie nela — oferece o maior campo de visão e evita que a objetiva toque a lâmina.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">🧫</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">③ Posicionar a lâmina</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Coloque a lâmina sobre a platina com a lamínula voltada para cima. Fixe com os grampos metálicos. Centralize a amostra usando os parafusos de deslocamento X e Y.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">⚙️</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">④ Foco grosseiro — macrométrico</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Olhando de lado, aproxime a objetiva girando o parafuso macrométrico devagar. Depois, olhando pela ocular, afaste lentamente até a imagem aparecer. Use somente na objetiva 4x.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">🎯</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">⑤ Foco fino — micrométrico</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Ajuste a nitidez com o parafuso micrométrico. Ele é essencial ao usar 10x e 40x — nunca force o macrométrico nessas objetivas, pois pode quebrar a lâmina.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">🔄</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">⑥ Troca de objetiva</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Centralize a estrutura de interesse e gire o revólver para 10x. Reajuste o foco com o micrométrico. Para ir a 40x, repita — nunca troque sem centralizar antes.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">💡</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">⑦ Ajuste de luz e contraste</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Regule o condensador (abaixo da platina) e o diafragma de íris. Mais aberto = mais brilho; mais fechado = mais contraste. Ajuste conforme a objetiva utilizada.</p>
+        </div>
+
+        <div class="glass" style="padding:20px 22px;border-left:3px solid var(--accent);position:relative;">
+          <div style="position:absolute;top:16px;right:18px;font-size:1.6rem;opacity:0.15;">✅</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:8px;">⑧ Finalização</div>
+          <p style="font-size:0.875rem;color:var(--text);line-height:1.8;opacity:0.85;margin:0;">Ao terminar, volte o revólver para a objetiva 4x. Remova a lâmina da platina. Desligue a iluminação, cubra o microscópio com o protetor e guarde em local adequado.</p>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1499,14 +1516,6 @@ const praticas = [
     texto: "<strong>Objetivo:</strong> Tecido Sanguíneo.<br><br><strong>Observação:</strong> Os leucócitos (glóbulos brancos) são as células de defesa do sangue e se dividem em dois grandes grupos: <strong>granulócitos</strong> (neutrófilos, eosinófilos e basófilos), que possuem grânulos específicos no citoplasma e núcleo lobulado, e <strong>agranulócitos</strong> (linfócitos e monócitos), que não apresentam grânulos específicos e têm núcleo regular. Cada tipo possui morfologia e função distintas, identificáveis no esfregaço sanguíneo corado.<br><br><strong>Materiais utilizados:</strong> Lâmina 50 com esfregaço sanguíneo corado e microscópio.<br><br><strong>Método:</strong> Após ligar o microscópio, o aluno posiciona a lâmina e identifica, em 40x, os diferentes tipos de leucócitos com base em suas características morfológicas.",
     subs: [
       {
-        titulo: "Visão Geral · Tecido Sanguíneo",
-        desc: "<span style='color:var(--accent);font-weight:600;'>Visão geral do tecido sanguíneo corado.</span> Observação panorâmica da lâmina 50 nos aumentos de 4x e 10x, permitindo identificar a distribuição das células sanguíneas e localizar regiões de interesse antes de passar para maior aumento.",
-        laminas: [
-          {title:"Tecido Sanguíneo 4x",  zoom:"4x",  emoji:"🩸", imgFixa:"fotos/pratica11_geral_4x.jpg",  desc:"Visão geral em 4x — distribuição das células sanguíneas no tecido sanguíneo corado.", tags:["4x","Tecido Sanguíneo"]},
-          {title:"Tecido Sanguíneo 10x", zoom:"10x", emoji:"🩸", imgFixa:"fotos/pratica11_geral_10x.jpg", desc:"Visão geral em 10x — panorama das células antes da identificação individual dos leucócitos.", tags:["10x","Tecido Sanguíneo"]}
-        ]
-      },
-      {
         titulo: "Agranulócitos",
         desc: "<span style='color:var(--accent);font-weight:600;'>Agranulócitos</span> — leucócitos sem grânulos específicos no citoplasma.<br><br><strong>Linfócitos:</strong> Segundo tipo mais comum (20–30%). Núcleo grande, esférico e intensamente corado, com escasso citoplasma basófilo. Responsáveis pela imunidade adaptativa — linfócitos T (imunidade celular) e linfócitos B (produção de anticorpos).<br><br><strong>Monócitos:</strong> Maiores leucócitos do sangue (2–8%). Núcleo em forma de ferradura ou rim, citoplasma abundante e acinzentado. Diferenciam-se em macrófagos nos tecidos, exercendo fagocitose e apresentação de antígenos.",
         laminas: [
@@ -1587,8 +1596,8 @@ function tagCls(t, zoom) {
 const galerias = {};
 
 function getImgSrc(l, i) {
-  if (l.imgFixa) return '<img src="' + l.imgFixa + '" onclick="event.stopPropagation();openLb(\'' + l.imgFixa + '\',\'' + l.title + ' · ' + l.zoom + '\')">';
-  if (imgs['l'+i]) return '<img src="' + imgs['l'+i] + '" onclick="event.stopPropagation();openLb(\'' + imgs['l'+i] + '\',\'' + l.title + ' · ' + l.zoom + '\')">';
+  if (l.imgFixa) return '<img src="' + l.imgFixa + '" loading="lazy" decoding="async" onclick="event.stopPropagation();openLb(\'' + l.imgFixa + '\',\'' + l.title + ' · ' + l.zoom + '\')">';
+  if (imgs['l'+i]) return '<img src="' + imgs['l'+i] + '" loading="lazy" decoding="async" onclick="event.stopPropagation();openLb(\'' + imgs['l'+i] + '\',\'' + l.title + ' · ' + l.zoom + '\')">';
   return '<span>' + l.emoji + '</span>';
 }
 
@@ -1792,6 +1801,23 @@ function promptQRUrl() {
   }
 }
 </script>
+
+
+<footer style="
+  width:100%;
+  text-align:center;
+  padding:28px 20px;
+  font-family:'Inter',sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.06em;
+  color:var(--muted);
+  border-top:1px solid var(--glass-border);
+  margin-top:40px;
+  opacity:0.7;
+">
+  Desenvolvido por <span style="color:var(--accent);font-weight:600;">Cristian Gomes Ferreira</span>
+  &nbsp;·&nbsp; Atlas de Citologia &amp; Histologia
+</footer>
 
 </body>
 </html>
